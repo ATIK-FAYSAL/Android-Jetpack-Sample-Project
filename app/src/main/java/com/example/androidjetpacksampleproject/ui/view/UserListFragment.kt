@@ -10,10 +10,12 @@ import com.example.androidjetpacksampleproject.adapter.UserListAdapter
 import com.example.androidjetpacksampleproject.core.BaseFragment
 import com.example.androidjetpacksampleproject.data.model.Users
 import com.example.androidjetpacksampleproject.databinding.LayoutUserListBinding
+import com.example.androidjetpacksampleproject.di.PreferenceManager
 import com.example.androidjetpacksampleproject.ui.viewmodel.UserViewModel
 import com.example.androidjetpacksampleproject.utils.RecyclerViewUtils
 import com.example.androidjetpacksampleproject.utils.Status
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 /**
  * @author Atik Faysal(Android Developer)
@@ -29,6 +31,9 @@ class UserListFragment : BaseFragment<LayoutUserListBinding, UserViewModel>()
     private var adapter = UserListAdapter(arrayListOf())
 
     private lateinit var progressDialog : ProgressDialog
+
+    @Inject
+    lateinit var spManager: PreferenceManager
 
     override val layoutId: Int
         get() = R.layout.layout_user_list
@@ -56,6 +61,13 @@ class UserListFragment : BaseFragment<LayoutUserListBinding, UserViewModel>()
             if(it) progressDialog.show()
             else progressDialog.dismiss()
         })
+
+        spManager.setApiKey("Map key")
+        spManager.setUserId("User Id")
+
+        Log.d("print_api_key", spManager.getApiKey())
+        Log.d("print_user_id", spManager.getUserId())
+
     }
 
     private fun userListObserver()
